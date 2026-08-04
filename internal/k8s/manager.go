@@ -18,6 +18,7 @@ package k8s
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 	"sync"
@@ -27,6 +28,8 @@ import (
 
 	"github.com/pehlicd/crd-wizard/internal/logger"
 )
+
+const inClusterContextName = "in-cluster"
 
 // ClusterManager manages multiple Kubernetes cluster connections.
 // It loads all contexts from kubeconfig at startup and provides
@@ -89,7 +92,22 @@ func NewClusterManager(kubeconfigPath string, log *logger.Logger) (*ClusterManag
 	}
 
 	if len(manager.clients) == 0 {
-		return nil, fmt.Errorf("no valid contexts found in kubeconfig")
+		// Check if running in a kubernetes cluster
+		if os.Getenv("KUBERNETES_SERVICE_HOST") == "" {
+			return nil, fmt.Errorf("no valid contexts found in kubeconfig")
+		}
+
+		log.Debug("No contexts found, falling back to in-cluster config")
+		clientConfig, err := kubeConfig.ClientConfig()
+		if err != nil {
+			return nil, fmt.Errorf("failed to load kubeconfig and in-cluster config: %w", err)
+		}
+		manager.clients[inClusterContextName], err = NewClientFromConfig(clientConfig, inClusterContextName, log)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create client from in-cluster config: %w", err)
+		}
+		manager.contextNames = append(manager.contextNames, inClusterContextName)
+		manager.currentContext = inClusterContextName
 	}
 
 	// Validate that current context is loaded
