@@ -62,7 +62,10 @@ func NewClient(kubeconfigPath, contextName string, log *logger.Logger) (*Client,
 		log.Error("error building config", "err", err)
 		return nil, err
 	}
+	return NewClientFromConfig(config, clusterName, log)
+}
 
+func NewClientFromConfig(config *rest.Config, clusterName string, log *logger.Logger) (*Client, error) {
 	config.QPS = 100
 	config.Burst = 150
 
