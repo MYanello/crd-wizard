@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/MYanello/crd-wizard/compare/v0.2.2...v0.2.3) (2026-10-17)
+
+
+### Bug Fixes
+
+* Remove goreleaser ([474c840](https://github.com/MYanello/crd-wizard/commit/474c8403c490f442619cc894859626a5e77fd11a))
+
 ## [0.2.2](https://github.com/MYanello/crd-wizard/compare/v0.2.1...v0.2.2) (2026-10-17)
 
 
