@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/MYanello/crd-wizard/compare/v0.2.1...v0.2.2) (2026-10-17)
+
+
+### Bug Fixes
+
+* Use a unique aud ([70ef8a8](https://github.com/MYanello/crd-wizard/commit/70ef8a83d25cf6b02fc8ff9c4200bb4ee188a830))
+
 ## [0.2.1](https://github.com/MYanello/crd-wizard/compare/v0.2.0...v0.2.1) (2026-10-17)
 
 
